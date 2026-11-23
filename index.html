@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>drumchopcue — Drum Chops Trainer, Animated Stickings &amp; Real-Time BPM Studio</title>
+    <meta
+      name="description"
+      content="Train drum chops, linear grooves, hockets, and polyrhythms 100% locally in your browser with synthesized Web Audio percussion, animated SVG stickings, and BPM ramps."
+    />
+    <meta name="robots" content="index, follow" />
+    <meta name="theme-color" content="#F8FAFC" />
+
+    <!-- Canonical & Internationalization (Single Source of Truth: https://drumchopcue.bastelar.com) -->
+    <link rel="canonical" href="https://drumchopcue.bastelar.com/" />
+    <link rel="alternate" hreflang="en" href="https://drumchopcue.bastelar.com/" />
+    <link rel="alternate" hreflang="es" href="https://drumchopcue.bastelar.com/?lang=es" />
+    <link rel="alternate" hreflang="fr" href="https://drumchopcue.bastelar.com/?lang=fr" />
+    <link rel="alternate" hreflang="de" href="https://drumchopcue.bastelar.com/?lang=de" />
+    <link rel="alternate" hreflang="pt" href="https://drumchopcue.bastelar.com/?lang=pt" />
+    <link rel="alternate" hreflang="ar" href="https://drumchopcue.bastelar.com/?lang=ar" />
+    <link rel="alternate" hreflang="hi" href="https://drumchopcue.bastelar.com/?lang=hi" />
+    <link rel="alternate" hreflang="ru" href="https://drumchopcue.bastelar.com/?lang=ru" />
+    <link rel="alternate" hreflang="zh" href="https://drumchopcue.bastelar.com/?lang=zh" />
+    <link rel="alternate" hreflang="ja" href="https://drumchopcue.bastelar.com/?lang=ja" />
+    <link rel="alternate" hreflang="x-default" href="https://drumchopcue.bastelar.com/" />
+
+    <!-- OpenGraph & Twitter Cards -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="drumchopcue" />
+    <meta property="og:url" content="https://drumchopcue.bastelar.com/" />
+    <meta property="og:title" content="drumchopcue — Drum Chops Trainer, Animated Stickings &amp; Real-Time BPM Studio" />
+    <meta
+      property="og:description"
+      content="Train drum chops, linear grooves, hockets, and polyrhythms 100% locally in your browser with synthesized Web Audio percussion, animated SVG stickings, and BPM ramps."
+    />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="drumchopcue — Drum Chops Trainer, Animated Stickings &amp; Real-Time BPM Studio" />
+    <meta
+      name="twitter:description"
+      content="Train drum chops, linear grooves, hockets, and polyrhythms 100% locally in your browser with synthesized Web Audio percussion, animated SVG stickings, and BPM ramps."
+    />
+
+    <!-- Favicon -->
+    <link
+      rel="icon"
+      type="image/svg+xml"
+      href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230F172A'/%3E%3Ccircle cx='32' cy='36' r='16' fill='none' stroke='%23D97706' stroke-width='4'/%3E%3Cpath d='M16 18 L34 34 M48 18 L30 34' stroke='%23F8FAFC' stroke-width='4' stroke-linecap='round'/%3E%3Ccircle cx='34' cy='34' r='3.5' fill='%23D97706'/%3E%3Ccircle cx='30' cy='34' r='3.5' fill='%234F46E5'/%3E%3C/svg%3E"
+    />
+
+    <!-- Typography -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600;700&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Structured Data (Dynamic Runtime Updates via seoManager.ts) -->
+    <script id="drumchopcue-jsonld" type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@graph": [
+          {
+            "@type": "SoftwareApplication",
+            "name": "drumchopcue",
+            "url": "https://drumchopcue.bastelar.com/",
+            "applicationCategory": "MusicApplication",
+            "operatingSystem": "Web",
+            "description": "100% client-side drum chops practice trainer with Web Audio percussion synthesis, synchronized SVG stickings, 6 progressive difficulty levels, and automatic BPM ramps.",
+            "offers": {
+              "@type": "Offer",
+              "price": "0",
+              "priceCurrency": "USD"
+            }
+          },
+          {
+            "@type": "FAQPage",
+            "mainEntity": [
+              {
+                "@type": "Question",
+                "name": "How does drumchopcue run without a server or AI API key?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "All percussion sounds are synthesized deterministically using your browser's Web Audio API, stick animations run locally via SVG and requestAnimationFrame, and practice profiles are saved in localStorage with JSON export/import."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "What is the difference between rudiments, linear chops, and drum orchestration?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Rudiments are foundational sticking patterns (like singles, doubles, and paradiddles), linear chops avoid simultaneous limb hits so every note has its own space, and orchestration distributes those stickings musically across snare, toms, cymbals, and kick."
+                }
+              }
+            ]
+          }
+        ]
+      }
+    </script>
+  </head>
+  <body class="bg-[#F8FAFC] text-slate-900 antialiased selection:bg-amber-200 selection:text-slate-900">
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
+

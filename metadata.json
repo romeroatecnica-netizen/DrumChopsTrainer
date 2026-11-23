@@ -1,0 +1,6 @@
+{
+  "name": "ChopCue — Drum Chops Trainer, Animated Stickings & Real-Time BPM Practice Studio",
+  "description": "100% client-side drum chops practice trainer with Web Audio percussion synthesis, synchronized SVG stick animations, 4 progressive difficulty levels, auto BPM ramp, and local JSON progress profiles.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
