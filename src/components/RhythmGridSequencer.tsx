@@ -52,14 +52,16 @@ function getSubdivisionCountLabel(
   return String(sub + 1);
 }
 
-function getGridColumnCount(stepsLength: number): number {
+function getGridColumnCount(stepsLength: number, stepsPerBeat: number): number {
   if (stepsLength <= 16) return stepsLength;
   if (stepsLength === 18) return 9;
   if (stepsLength === 20) return 10;
   if (stepsLength === 22) return 11;
   if (stepsLength === 24) return 12;
   if (stepsLength === 28) return 14;
-  if (stepsLength === 36 || stepsLength === 48) return 12;
+  if (stepsLength === 30) return 15;
+  if (stepsLength === 36) return stepsPerBeat === 9 ? 9 : 12;
+  if (stepsLength === 48) return stepsPerBeat === 8 ? 16 : 12;
   return 16;
 }
 
@@ -141,7 +143,8 @@ export function RhythmGridSequencer({
           className="grid gap-1.5 min-w-[540px]"
           style={{
             gridTemplateColumns: `repeat(${getGridColumnCount(
-              pattern.steps.length
+              pattern.steps.length,
+              pattern.stepsPerBeat
             )}, minmax(0, 1fr))`,
           }}
         >

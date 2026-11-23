@@ -50,6 +50,97 @@ export function buildBaseGrooveForChop(chop: ChopPattern): ChopPattern {
       else if (i % 2 === 0) steps.push(s('hihat', 'R', 'normal'));
       else steps.push(s('rest', '-', 'rest'));
     }
+  } else if (chop.timeSignature === '12/8') {
+    // 12/8 Compound Blues / Gospel / Fusion Shuffle pocket (4 dotted-quarter pulses)
+    for (let i = 0; i < totalSteps; i++) {
+      const beatIdx = Math.floor(i / spb);
+      const sub = i % spb;
+      if (spb === 3) {
+        // 12-step 12/8 shuffle
+        if (beatIdx === 0 && sub === 0) steps.push(s('kick', 'K', 'accent'));
+        else if ((beatIdx === 1 || beatIdx === 3) && sub === 0)
+          steps.push(s('snare', 'L', 'accent'));
+        else if (beatIdx === 2 && sub === 0) steps.push(s('kick', 'K', 'accent'));
+        else if (beatIdx === 2 && sub === 2) steps.push(s('kick', 'K', 'normal'));
+        else if ((beatIdx === 1 || beatIdx === 3) && sub === 2)
+          steps.push(s('snare', 'L', 'ghost'));
+        else steps.push(s('hihat', 'R', sub === 0 ? 'accent' : 'normal'));
+      } else if (spb === 9) {
+        // 36-step 12/8 compound pocket (triplet hi-hat grid on 0, 3, 6)
+        if ((beatIdx === 0 || beatIdx === 2) && sub === 0)
+          steps.push(s('kick', 'K', 'accent'));
+        else if ((beatIdx === 1 || beatIdx === 3) && sub === 0)
+          steps.push(s('snare', 'L', 'accent'));
+        else if (beatIdx === 2 && sub === 6) steps.push(s('kick', 'K', 'normal'));
+        else if ((beatIdx === 1 || beatIdx === 3) && sub === 6)
+          steps.push(s('snare', 'L', 'ghost'));
+        else if (sub % 3 === 0)
+          steps.push(s('hihat', 'R', sub === 0 ? 'accent' : 'normal'));
+        else steps.push(s('rest', '-', 'rest'));
+      } else {
+        // 24-step 12/8 double-time compound pocket
+        if ((beatIdx === 0 || beatIdx === 2) && sub === 0)
+          steps.push(s('kick', 'K', 'accent'));
+        else if ((beatIdx === 1 || beatIdx === 3) && sub === 0)
+          steps.push(s('snare', 'L', 'accent'));
+        else if (beatIdx === 2 && sub === 4) steps.push(s('kick', 'K', 'normal'));
+        else if ((beatIdx === 1 || beatIdx === 3) && sub === 4)
+          steps.push(s('snare', 'L', 'ghost'));
+        else if (sub % 2 === 0)
+          steps.push(s('hihat', 'R', sub === 0 ? 'accent' : 'normal'));
+        else steps.push(s('rest', '-', 'rest'));
+      }
+    }
+  } else if (chop.timeSignature === '6/4') {
+    // 6/4 Prog / Fusion pocket: Beat 1 Kick, Beat 2 Snare, Beat 3 Kick, Beat 4 Kick, Beat 5 Snare, Beat 6 Kick(&) + Ghost
+    for (let i = 0; i < totalSteps; i++) {
+      const beatIdx = Math.floor(i / spb);
+      const sub = i % spb;
+      const halfBeat = Math.max(1, Math.floor(spb / 2));
+
+      if ((beatIdx === 0 || beatIdx === 2 || beatIdx === 3) && sub === 0) {
+        steps.push(s('kick', 'K', beatIdx === 0 ? 'accent' : 'normal'));
+      } else if ((beatIdx === 1 || beatIdx === 4) && sub === 0) {
+        steps.push(s('snare', 'L', 'accent'));
+      } else if (beatIdx === 5 && sub === halfBeat && spb >= 2) {
+        steps.push(s('kick', 'K', 'normal'));
+      } else if (
+        spb >= 3 &&
+        (beatIdx === 1 || beatIdx === 4 || beatIdx === 5) &&
+        sub === spb - 1
+      ) {
+        steps.push(s('snare', 'L', 'ghost'));
+      } else if (sub === 0 || (spb >= 4 && sub === halfBeat)) {
+        steps.push(s('hihat', 'R', sub === 0 ? 'accent' : 'normal'));
+      } else if (spb === 3 && sub === 2) {
+        steps.push(s('hihat', 'R', 'normal'));
+      } else {
+        steps.push(s('rest', '-', 'rest'));
+      }
+    }
+  } else if (chop.timeSignature === '3/4') {
+    // 3/4 Waltz-Rock / Jazz pocket: Beat 1 Kick, Beat 2 Snare, Beat 3 Hi-Hat + Kick(&) + Ghost pickup
+    for (let i = 0; i < totalSteps; i++) {
+      const beatIdx = Math.floor(i / spb);
+      const sub = i % spb;
+      const halfBeat = Math.max(1, Math.floor(spb / 2));
+
+      if (beatIdx === 0 && sub === 0) {
+        steps.push(s('kick', 'K', 'accent'));
+      } else if (beatIdx === 1 && sub === 0) {
+        steps.push(s('snare', 'L', 'accent'));
+      } else if (beatIdx === 2 && sub === halfBeat && spb >= 2) {
+        steps.push(s('kick', 'K', 'normal'));
+      } else if (beatIdx === 2 && sub === spb - 1 && spb >= 3) {
+        steps.push(s('snare', 'L', 'ghost'));
+      } else if (sub === 0 || (spb >= 4 && sub === halfBeat)) {
+        steps.push(s('hihat', 'R', sub === 0 ? 'accent' : 'normal'));
+      } else if (spb === 3 && sub === 2) {
+        steps.push(s('hihat', 'R', 'normal'));
+      } else {
+        steps.push(s('rest', '-', 'rest'));
+      }
+    }
   } else if (chop.timeSignature === '6/8' || chop.timeSignature === '9/8') {
     // Compound 6/8 or 9/8 pocket
     for (let i = 0; i < totalSteps; i++) {
@@ -64,7 +155,7 @@ export function buildBaseGrooveForChop(chop: ChopPattern): ChopPattern {
       else steps.push(s('rest', '-', 'rest'));
     }
   } else {
-    // Standard 4/4, 3/4, or 2/4 pocket matching exact stepsPerBeat (4, 3, 5, 6, 7, 8, 9)
+    // Standard 4/4 or 2/4 pocket matching exact stepsPerBeat (4, 3, 5, 6, 7, 8, 9)
     const totalBeats = Math.max(1, Math.round(totalSteps / spb));
     for (let i = 0; i < totalSteps; i++) {
       const beatIdx = Math.floor(i / spb);

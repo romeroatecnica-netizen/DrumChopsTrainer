@@ -25,6 +25,7 @@ export function ChopLibrarySection({
   t,
 }: ChopLibrarySectionProps) {
   const [filter, setFilter] = useState<LevelFilter>('all');
+  const [meterFilter, setMeterFilter] = useState<string>('all');
   const [query, setQuery] = useState('');
 
   const allChops = useMemo(
@@ -32,22 +33,30 @@ export function ChopLibrarySection({
     [activeProfile.customChops, libraryChops]
   );
 
+  const availableMeters = useMemo(() => {
+    const order = ['4/4', '3/4', '6/4', '12/8', '2/4', '6/8', '9/8', '5/8', '7/8', '11/16', '13/16'];
+    const present = new Set(allChops.map((c) => c.timeSignature));
+    return order.filter((m) => present.has(m as ChopPattern['timeSignature']));
+  }, [allChops]);
+
   const filteredChops = useMemo(() => {
     const q = query.trim().toLowerCase();
     return allChops.filter((chop) => {
       if (filter === 'custom' && !chop.isCustom) return false;
       if (typeof filter === 'number' && chop.level !== filter) return false;
+      if (meterFilter !== 'all' && chop.timeSignature !== meterFilter) return false;
       if (!q) return true;
       const stickingText = chop.steps.map((s) => s.hand).join(' ').toLowerCase();
       const voiceText = chop.steps.map((s) => s.voice).join(' ').toLowerCase();
       return (
         chop.title.toLowerCase().includes(q) ||
         chop.categoryTag.toLowerCase().includes(q) ||
+        chop.timeSignature.toLowerCase().includes(q) ||
         stickingText.includes(q) ||
         voiceText.includes(q)
       );
     });
-  }, [allChops, filter, query]);
+  }, [allChops, filter, meterFilter, query]);
 
   const activeLevelInfo = useMemo(() => {
     if (filter === 1) return { title: t.levels.l1Title, desc: t.levels.l1Desc };
@@ -70,6 +79,22 @@ export function ChopLibrarySection({
         </div>
 
         <div className="flex flex-wrap items-center gap-2">
+          <select
+            value={meterFilter}
+            onChange={(e) => setMeterFilter(e.target.value)}
+            aria-label={t.editor.timeSigLabel}
+            className="px-3 py-2 text-xs font-mono-tabular font-semibold bg-white border border-slate-200 rounded-lg text-slate-800 focus:outline-none focus:border-amber-600"
+          >
+            <option value="all">
+              {t.editor.timeSigLabel}: {t.levels.all}
+            </option>
+            {availableMeters.map((m) => (
+              <option key={m} value={m}>
+                {m}
+              </option>
+            ))}
+          </select>
+
           <div className="relative">
             <Search className="w-4 h-4 text-slate-400 absolute start-3 top-1/2 -translate-y-1/2 pointer-events-none" />
             <input

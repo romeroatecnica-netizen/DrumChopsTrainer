@@ -281,7 +281,7 @@ export function CustomChopEditorModal({
               onChange={(e) => handleStepCountChange(Number(e.target.value))}
               className="px-3 py-2 text-sm border border-slate-200 rounded-lg bg-white font-mono-tabular"
             >
-              {[8, 10, 11, 12, 13, 14, 16, 18, 20, 22, 24, 28, 32, 36, 48].map((n) => (
+              {[8, 9, 10, 11, 12, 13, 14, 15, 16, 18, 20, 22, 24, 28, 30, 32, 36, 48].map((n) => (
                 <option key={n} value={n}>
                   {n}
                 </option>
@@ -301,7 +301,7 @@ export function CustomChopEditorModal({
               className="px-3 py-2 text-sm border border-slate-200 rounded-lg bg-white font-mono-tabular"
             >
               {(
-                ['4/4', '3/4', '2/4', '5/8', '7/8', '6/8', '9/8', '11/16', '13/16'] as const
+                ['4/4', '3/4', '6/4', '2/4', '12/8', '6/8', '9/8', '5/8', '7/8', '11/16', '13/16'] as const
               ).map((ts) => (
                 <option key={ts} value={ts}>
                   {ts}

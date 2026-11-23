@@ -36,14 +36,16 @@ export interface ChopPattern {
   title: string;
   timeSignature:
     | '4/4'
+    | '3/4'
+    | '6/4'
+    | '2/4'
     | '5/8'
     | '7/8'
     | '6/8'
     | '9/8'
+    | '12/8'
     | '11/16'
-    | '13/16'
-    | '3/4'
-    | '2/4';
+    | '13/16';
   subdivision: SubdivisionType;
   /** Number of steps per quarter-note beat (4 for 16ths, 3 for triplets, 6 for sextuplets, 5 for quintuplets, 7 for septuplets, 2 for 8ths) */
   stepsPerBeat: number;

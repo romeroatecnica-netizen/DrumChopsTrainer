@@ -316,6 +316,9 @@ const en: TranslationBundle = {
     tip_odd_11_13: 'Subdivide 11/16 (3+3+3+2) and 13/16 (3+3+3+2+2) vocally before transferring the melody to the kit.',
     tip_modulation_anchor: 'Keep the quarter-note pulse identical in your body while shifting smoothly between triplet and sextuplet gears.',
     tip_over_barline: 'Trust the recurring sticking accent rather than the barline; your crash resolution will land naturally on beat 1.',
+    tip_3_4_waltz: 'Feel the 3/4 cycle in one wide sweep ("1-2-3") so every fill resolves smoothly back onto beat 1.',
+    tip_6_4_grouping: 'Divide 6/4 cleanly into 4+2 or 3+3 phrases so long linear fills keep rock-solid forward momentum.',
+    tip_12_8_pocket: 'Sink into the swinging triplet pocket of 12/8; keep snare ghost notes whisper-soft between strong backbeats.',
   },
   library: {
     heading: 'Chop Library & Difficulty Progression',
@@ -581,6 +584,9 @@ const es: TranslationBundle = {
     tip_odd_11_13: 'Canta la subdivisión de 11/16 (3+3+3+2) y 13/16 (3+3+3+2+2) antes de orquestarla en los toms.',
     tip_modulation_anchor: 'Mantén intacto el pulso de negra en el cuerpo al cambiar de marcha de tresillos a sextillos.',
     tip_over_barline: 'Confía en la acentuación recurrente de la celda sobre la línea de compás; la resolución caerá limpia en el 1.',
+    tip_3_4_waltz: 'Siente el compás de 3/4 en un pulso amplio ("1-2-3") para que el fill resuelva con naturalidad en el tiempo 1.',
+    tip_6_4_grouping: 'Divide el 6/4 internamente en frases de 4+2 o 3+3 para que los fills largos mantengan empuje y claridad.',
+    tip_12_8_pocket: 'Asienta el balanceo ternario del 12/8; mantén las ghost notes muy suaves entre los acentos de caja y bombo.',
   },
   library: {
     heading: 'Biblioteca de Chops por Niveles',

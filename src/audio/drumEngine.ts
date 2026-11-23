@@ -438,6 +438,9 @@ export class DrumAudioEngine {
     const beatIndex = Math.floor(stepIndex / spb);
     const sub = stepIndex % spb;
     const halfBeat = Math.max(1, Math.floor(spb / 2));
+    // For compound/triplet subdivisions (3, 6, or 9 per beat), anticipate on the last triplet skip
+    const compSub =
+      spb === 3 ? 2 : spb === 6 ? 4 : spb === 9 ? 6 : halfBeat;
     const totalBeats = Math.max(2, Math.round(totalSteps / spb));
     const isLastGrooveBar =
       phase === 'groove' && this.cycleBarIndex === this.grooveBarsCount - 1;
@@ -460,8 +463,8 @@ export class DrumAudioEngine {
         this.synthPianoBassNote(m2f(rootMidi), time, beatDuration * 1.6, 0.44 * pianoGainScale);
         this.synthAcousticPianoChord(chord, time, beatDuration * 1.45, 0.48 * pianoGainScale);
       } else if (phase === 'groove') {
-        if (beatIndex === 1 && sub === halfBeat && spb >= 2) {
-          // "& of 2": Classic syncopated comping stab
+        if (beatIndex === 1 && sub === compSub && spb >= 2) {
+          // "& of 2" (or triplet skip): Classic syncopated comping stab
           this.synthAcousticPianoChord(chord.slice(1), time, beatDuration * 0.55, 0.36 * pianoGainScale);
         } else if (beatIndex === 2 && sub === 0 && totalBeats >= 3) {
           // Beat 3: Left-hand fifth/octave support + warm upper chord touch
@@ -469,10 +472,17 @@ export class DrumAudioEngine {
           if (totalBeats >= 4) {
             this.synthAcousticPianoChord(chord.slice(2), time, beatDuration * 0.65, 0.28 * pianoGainScale);
           }
+        } else if (beatIndex === 3 && sub === 0 && totalBeats >= 6) {
+          // Beat 4 in 6/4: Secondary harmonic push into second half of the 6-beat bar
+          this.synthPianoBassNote(m2f(rootMidi), time, beatDuration * 1.1, 0.36 * pianoGainScale);
+          this.synthAcousticPianoChord(nextChord.slice(1), time, beatDuration * 0.9, 0.36 * pianoGainScale);
+        } else if (beatIndex === 4 && sub === compSub && totalBeats >= 6 && spb >= 2) {
+          // "& of 5" in 6/4
+          this.synthAcousticPianoChord(nextChord.slice(1), time, beatDuration * 0.5, 0.32 * pianoGainScale);
         } else if (
           isLastGrooveBar &&
           beatIndex === totalBeats - 1 &&
-          sub === halfBeat &&
+          sub === compSub &&
           spb >= 2
         ) {
           // "& of last beat" turnaround pickup right into the Chop Fill!
@@ -485,10 +495,10 @@ export class DrumAudioEngine {
         } else if (
           !isLastGrooveBar &&
           totalBeats >= 4 &&
-          beatIndex === 3 &&
+          beatIndex === totalBeats - 1 &&
           sub === 0
         ) {
-          // Light beat-4 ghost comp chord keeping pocket momentum
+          // Light final-beat ghost comp chord keeping pocket momentum
           this.synthAcousticPianoChord(chord.slice(2), time, beatDuration * 0.4, 0.24 * pianoGainScale);
         }
       } else if (phase === 'chop') {
@@ -496,6 +506,8 @@ export class DrumAudioEngine {
         if (beatIndex === 2 && sub === 0 && totalSteps >= spb * 3) {
           this.synthPianoBassNote(m2f(rootMidi + 12), time, beatDuration * 0.75, 0.34 * pianoGainScale);
           this.synthAcousticPianoChord(chord.slice(1), time, beatDuration * 0.85, 0.36 * pianoGainScale);
+        } else if (beatIndex === 4 && sub === 0 && totalBeats >= 6) {
+          this.synthAcousticPianoChord(nextChord.slice(1), time, beatDuration * 0.75, 0.3 * pianoGainScale);
         }
       }
     }
@@ -508,15 +520,22 @@ export class DrumAudioEngine {
       } else if (
         phase === 'groove' &&
         beatIndex === 1 &&
-        sub === halfBeat &&
+        sub === compSub &&
         spb >= 2
       ) {
         this.synthRhodesChord(chord.slice(1), time, beatDuration * 1.0, 0.34 * rhodesScale);
       } else if (
         phase === 'groove' &&
-        totalBeats >= 4 &&
+        totalBeats >= 6 &&
         beatIndex === 3 &&
-        sub === halfBeat &&
+        sub === 0
+      ) {
+        this.synthRhodesChord(nextChord, time, beatDuration * 1.4, 0.38 * rhodesScale);
+      } else if (
+        phase === 'groove' &&
+        totalBeats >= 4 &&
+        beatIndex === totalBeats - 1 &&
+        sub === compSub &&
         spb >= 2
       ) {
         this.synthRhodesChord(nextChord.slice(1), time, beatDuration * 0.55, 0.28 * rhodesScale);
@@ -534,12 +553,12 @@ export class DrumAudioEngine {
     if (playElectronic) {
       if (stepIndex === 0) {
         this.synthBassNote(m2f(rootMidi), time, beatDuration * 0.9, 0.34);
-      } else if (isBeatStart && beatIndex === 2) {
+      } else if (isBeatStart && (beatIndex === 2 || (totalBeats >= 6 && beatIndex === 4))) {
         this.synthBassNote(m2f(rootMidi), time, beatDuration * 0.8, 0.28);
       } else if (
         phase === 'groove' &&
         beatIndex === 1 &&
-        sub === halfBeat &&
+        sub === compSub &&
         spb >= 2
       ) {
         this.synthBassNote(m2f(fifthMidi), time, beatDuration * 0.45, 0.22);
